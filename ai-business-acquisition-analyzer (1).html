@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Business Acquisition Analyzer | IncomeAIHub</title>
+<meta name="description" content="Kisi bhi business ko acquire/khareedne se pehle uska AI-powered due diligence score, valuation range aur risk report paayein.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+  :root{
+    --bg:#08080c;
+    --bg-alt:#0f0f16;
+    --panel:#13131c;
+    --panel-2:#181822;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --gold:#d4af37;
+    --gold-2:#f0d878;
+    --emerald:#10b981;
+    --violet:#8b5cf6;
+    --red:#ef4444;
+    --amber:#f59e0b;
+    --text:#f2f1ec;
+    --text-dim:#a6a5b0;
+    --text-faint:#6c6b78;
+    --radius:16px;
+    --font-head:'Syne',sans-serif;
+    --font-body:'DM Sans',sans-serif;
+    --font-mono:'DM Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(212,175,55,0.10), transparent 60%),
+      radial-gradient(ellipse 800px 500px at 100% 10%, rgba(139,92,246,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 600px at 50% 100%, rgba(16,185,129,0.07), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,12,0.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:1180px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:800;font-size:19px;letter-spacing:0.3px;}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--emerald));box-shadow:0 0 12px rgba(212,175,55,0.7);}
+  .brand span.sub{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);font-weight:400;letter-spacing:1px;display:block;}
+  .nav-actions{display:flex;align-items:center;gap:10px;}
+  .btn-ghost{
+    border:1px solid var(--border-strong);background:transparent;color:var(--text);
+    padding:9px 16px;border-radius:10px;font-family:var(--font-body);font-weight:600;font-size:13px;cursor:pointer;
+    transition:.2s;
+  }
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-2);}
+
+  /* HERO */
+  .hero{padding:64px 20px 40px;text-align:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:1.5px;
+    color:var(--gold-2);background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);
+    padding:6px 14px;border-radius:100px;margin-bottom:20px;text-transform:uppercase;
+  }
+  h1{font-family:var(--font-head);font-weight:800;font-size:clamp(28px,5vw,46px);line-height:1.15;max-width:820px;margin:0 auto 16px;}
+  h1 .grad{background:linear-gradient(90deg,var(--gold-2),var(--emerald));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p{color:var(--text-dim);max-width:600px;margin:0 auto;font-size:16px;}
+  .hero-stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:30px;}
+  .hstat b{font-family:var(--font-head);font-size:22px;display:block;color:var(--gold-2);}
+  .hstat span{font-size:12px;color:var(--text-faint);}
+
+  /* AD SLOT */
+  .ad-slot{
+    max-width:1180px;margin:24px auto;padding:14px;text-align:center;
+    border:1px dashed var(--border-strong);border-radius:12px;color:var(--text-faint);
+    font-family:var(--font-mono);font-size:11px;letter-spacing:1px;
+  }
+
+  /* SECTION SHELL */
+  .section{padding:36px 20px;max-width:1180px;margin:0 auto;}
+  .section-title{font-family:var(--font-head);font-weight:700;font-size:24px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+  .section-title .num{
+    width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--emerald));
+    display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;color:#0a0a0a;font-weight:700;
+  }
+  .section-sub{color:var(--text-faint);font-size:13.5px;margin-bottom:22px;margin-left:40px;}
+
+  /* CARD / PANEL */
+  .panel{
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;
+  }
+
+  /* FORM GRID */
+  .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:680px){.qgrid{grid-template-columns:1fr;}}
+  .qfield{display:flex;flex-direction:column;gap:8px;}
+  .qfield label{font-size:13.5px;font-weight:600;color:var(--text);}
+  .qfield .hint{font-size:11.5px;color:var(--text-faint);margin-top:-4px;}
+  select, input[type=text], input[type=number]{
+    background:rgba(255,255,255,0.03);border:1px solid var(--border-strong);color:var(--text);
+    padding:11px 12px;border-radius:10px;font-family:var(--font-body);font-size:14px;outline:none;
+    transition:.2s;width:100%;
+  }
+  select:focus, input:focus{border-color:var(--gold);background:rgba(212,175,55,0.05);}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a6a5b0' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px;}
+
+  .cat-block{margin-bottom:28px;}
+  .cat-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .cat-head .icon{font-size:18px;}
+  .cat-head h3{font-family:var(--font-head);font-size:16px;font-weight:700;}
+
+  /* VALUATION INPUTS */
+  .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:780px){.vgrid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.vgrid{grid-template-columns:1fr;}}
+
+  /* CTA */
+  .cta-row{display:flex;justify-content:center;margin-top:30px;}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#141008;
+    border:none;padding:15px 34px;border-radius:12px;font-family:var(--font-head);font-weight:700;font-size:15.5px;
+    cursor:pointer;box-shadow:0 8px 24px rgba(212,175,55,0.25);transition:.2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(212,175,55,0.35);}
+  .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+  .btn-secondary{
+    background:linear-gradient(135deg,var(--emerald),#0aa878);color:#04150e;
+    border:none;padding:15px 34px;border-radius:12px;font-family:var(--font-head);font-weight:700;font-size:15.5px;cursor:pointer;
+  }
+
+  /* RESULTS */
+  #resultsSection{display:none;}
+  .results-top{display:grid;grid-template-columns:340px 1fr;gap:24px;}
+  @media(max-width:860px){.results-top{grid-template-columns:1fr;}}
+  .gauge-card{text-align:center;}
+  .gauge-verdict{font-family:var(--font-head);font-weight:800;font-size:20px;margin-top:8px;}
+  .gauge-score{font-family:var(--font-mono);font-size:44px;font-weight:500;}
+  .gauge-score span{font-size:16px;color:var(--text-faint);}
+  .verdict-tag{
+    display:inline-block;margin-top:10px;padding:5px 14px;border-radius:100px;font-size:12px;font-family:var(--font-mono);letter-spacing:0.5px;
+  }
+  .tag-buy{background:rgba(16,185,129,0.12);color:var(--emerald);border:1px solid rgba(16,185,129,0.35);}
+  .tag-negotiate{background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.35);}
+  .tag-avoid{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.35);}
+
+  .breakdown-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .bd-row{display:flex;align-items:center;gap:10px;font-size:13px;}
+  .bd-row .bd-label{width:150px;color:var(--text-dim);flex-shrink:0;}
+  .bd-bar{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+  .bd-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--emerald));transition:width 1s ease;}
+  .bd-val{font-family:var(--font-mono);width:40px;text-align:right;color:var(--text-faint);}
+
+  /* VALUATION RESULT */
+  .val-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px;}
+  @media(max-width:680px){.val-grid{grid-template-columns:1fr;}}
+  .val-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+  .val-card .lbl{font-size:11.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:1px;font-family:var(--font-mono);}
+  .val-card .amt{font-family:var(--font-head);font-size:20px;margin-top:6px;color:var(--gold-2);}
+  .val-note{margin-top:14px;font-size:12.5px;color:var(--text-faint);}
+
+  /* LOCKED REPORT */
+  .locked-wrap{position:relative;margin-top:26px;}
+  .locked-blur{filter:blur(6px);user-select:none;pointer-events:none;}
+  .lock-overlay{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    background:linear-gradient(180deg,rgba(8,8,12,0.2),rgba(8,8,12,0.85));border-radius:14px;text-align:center;padding:20px;
+  }
+  .lock-icon{font-size:30px;}
+  .lock-overlay h4{font-family:var(--font-head);font-size:18px;}
+  .lock-overlay p{font-size:13px;color:var(--text-dim);max-width:340px;}
+  .price-tag{font-family:var(--font-mono);font-size:26px;color:var(--gold-2);}
+  .price-tag s{color:var(--text-faint);font-size:16px;margin-right:8px;}
+
+  .report-text{white-space:pre-line;font-size:14.5px;color:var(--text);line-height:1.8;}
+  .report-text h4{font-family:var(--font-head);color:var(--gold-2);margin:16px 0 6px;font-size:15px;}
+
+  .loader{display:flex;align-items:center;gap:10px;justify-content:center;padding:20px;color:var(--text-dim);font-size:13px;}
+  .spinner{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--gold);animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* MODAL */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px;}
+  .modal-bg.active{display:flex;}
+  .modal-box{
+    background:var(--panel);border:1px solid var(--border-strong);border-radius:16px;max-width:520px;width:100%;
+    max-height:80vh;overflow-y:auto;padding:26px;
+  }
+  .modal-box h3{font-family:var(--font-head);font-size:20px;margin-bottom:14px;color:var(--gold-2);}
+  .modal-box h4{font-family:var(--font-head);font-size:15px;margin:16px 0 6px;}
+  .modal-box p, .modal-box li{font-size:13.5px;color:var(--text-dim);}
+  .modal-box ol, .modal-box ul{padding-left:20px;margin-top:6px;}
+  .modal-close{float:right;cursor:pointer;font-size:20px;color:var(--text-faint);}
+
+  footer{border-top:1px solid var(--border);padding:36px 20px;text-align:center;color:var(--text-faint);font-size:12.5px;margin-top:40px;}
+  footer .fbrand{font-family:var(--font-head);color:var(--text-dim);margin-bottom:6px;}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--border-strong);
+    padding:12px 20px;border-radius:10px;font-size:13px;z-index:300;display:none;box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <span class="dot"></span>
+      <div>IncomeAIHub<span class="sub">AI BUSINESS ACQUISITION ANALYZER</span></div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost" onclick="openGuide()">🇮🇳 हिंदी गाइड</button>
+      <button class="btn-ghost" id="unlockNavBtn" onclick="scrollToUnlock()">🔓 Unlock ₹149</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">⚖️ AI-Powered Due Diligence</div>
+  <h1>Business Khareedne Se Pehle, <span class="grad">Poora Sach Jaan Lo.</span></h1>
+  <p>Koi bhi business acquire karne se pehle uska financial health, market risk aur fair valuation check karein — AI se, 2 minute mein.</p>
+  <div class="hero-stats">
+    <div class="hstat"><b>20</b><span>Due Diligence Factors</span></div>
+    <div class="hstat"><b>3</b><span>Valuation Methods</span></div>
+    <div class="hstat"><b>₹149</b><span>Lifetime Full Report</span></div>
+  </div>
+</section>
+
+<div class="ad-slot">AD SLOT — 728x90 / Responsive (AdSense)</div>
+
+<form id="analyzerForm" class="section">
+
+  <div class="panel">
+    <div class="section-title"><span class="num">1</span> Business Basics</div>
+    <div class="section-sub">Business ka naam aur industry batayein</div>
+    <div class="qgrid">
+      <div class="qfield">
+        <label>Business / Target Company Name</label>
+        <input type="text" id="bizName" placeholder="e.g. Sharma Traders" required>
+      </div>
+      <div class="qfield">
+        <label>Industry</label>
+        <select id="industry" required>
+          <option value="">Select Industry</option>
+          <option value="service">Service / Consulting</option>
+          <option value="it">IT / SaaS / Tech</option>
+          <option value="retail">Retail / Trading</option>
+          <option value="manufacturing">Manufacturing</option>
+          <option value="fnb">Food & Beverage</option>
+          <option value="ecommerce">E-commerce</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Years in Operation</label>
+        <select id="yearsOp" required>
+          <option value="5">Less than 1 year</option>
+          <option value="10">1–3 years</option>
+          <option value="18">3–7 years</option>
+          <option value="25">7+ years</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Total Employees</label>
+        <select id="empCount" required>
+          <option value="8">Solo / Freelancer led</option>
+          <option value="14">2–10</option>
+          <option value="20">11–50</option>
+          <option value="25">50+</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <div class="section-title"><span class="num">2</span> Financial Health <span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:6px;">(5 factors)</span></div>
+    <div class="section-sub">Business ki financial condition ka sabse zyada weight hota hai</div>
+    <div class="qgrid">
+      <div class="qfield">
+        <label>Revenue Trend (Last 3 Years)</label>
+        <select class="score-input" data-cat="financial" required>
+          <option value="0">Declining sharply</option>
+          <option value="6">Slightly declining</option>
+          <option value="13">Stable / Flat</option>
+          <option value="18">Growing steadily</option>
+          <option value="20">Growing fast (20%+ YoY)</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Net Profit Margin</label>
+        <select class="score-input" data-cat="financial" required>
+          <option value="0">Loss-making</option>
+          <option value="8">0–5%</option>
+          <option value="14">5–15%</option>
+          <option value="20">15%+</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Debt-to-Equity Level</label>
+        <select class="score-input" data-cat="financial" required>
+          <option value="20">No debt / very low</option>
+          <option value="14">Manageable debt</option>
+          <option value="7">High debt</option>
+          <option value="0">Overleveraged / defaults</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Cash Flow Consistency</label>
+        <select class="score-input" data-cat="financial" required>
+          <option value="20">Very consistent, predictable</option>
+          <option value="13">Mostly stable, minor gaps</option>
+          <option value="6">Irregular / seasonal issues</option>
+          <option value="0">Frequent cash crunch</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Revenue Concentration (Top Client/Product Share)</label>
+        <select class="score-input" data-cat="financial" required>
+          <option value="20">Well diversified (&lt;20% from any one source)</option>
+          <option value="12">Moderate (20–40%)</option>
+          <option value="5">High (40–70%)</option>
+          <option value="0">Very high (70%+ — dangerous)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <div class="section-title"><span class="num">3</span> Market & Competitive Position <span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:6px;">(4 factors)</span></div>
+    <div class="qgrid">
+      <div class="qfield">
+        <label>Market Position</label>
+        <select class="score-input" data-cat="market" required>
+          <option value="20">Market leader / strong brand</option>
+          <option value="14">Established, well-known locally</option>
+          <option value="7">Small player, niche</option>
+          <option value="0">Struggling for visibility</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Competitive Moat</label>
+        <select class="score-input" data-cat="market" required>
+          <option value="20">Strong (patents, contracts, brand loyalty)</option>
+          <option value="12">Moderate (some differentiation)</option>
+          <option value="5">Weak (easily replicable)</option>
+          <option value="0">None</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Industry Growth Outlook</label>
+        <select class="score-input" data-cat="market" required>
+          <option value="20">High growth industry</option>
+          <option value="13">Stable industry</option>
+          <option value="6">Declining industry</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Brand Reputation / Customer Reviews</label>
+        <select class="score-input" data-cat="market" required>
+          <option value="20">Excellent reputation</option>
+          <option value="13">Generally positive</option>
+          <option value="6">Mixed reviews</option>
+          <option value="0">Poor reputation</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <div class="section-title"><span class="num">4</span> Operational Risk <span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:6px;">(4 factors)</span></div>
+    <div class="qgrid">
+      <div class="qfield">
+        <label>Owner Dependency</label>
+        <select class="score-input" data-cat="operational" required>
+          <option value="20">Runs independently of owner</option>
+          <option value="12">Partial dependency</option>
+          <option value="4">Heavily owner-dependent</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Key-Person / Employee Retention Risk</label>
+        <select class="score-input" data-cat="operational" required>
+          <option value="20">Low risk, stable team</option>
+          <option value="12">Moderate risk</option>
+          <option value="4">High turnover / key person risk</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Systems & Processes Documented</label>
+        <select class="score-input" data-cat="operational" required>
+          <option value="20">Fully documented (SOPs, software)</option>
+          <option value="12">Partially documented</option>
+          <option value="4">Mostly undocumented / tribal knowledge</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Supplier / Vendor Dependency</label>
+        <select class="score-input" data-cat="operational" required>
+          <option value="20">Multiple reliable suppliers</option>
+          <option value="12">Some concentration</option>
+          <option value="4">Single-supplier dependency</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <div class="section-title"><span class="num">5</span> Legal & Compliance <span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:6px;">(4 factors)</span></div>
+    <div class="qgrid">
+      <div class="qfield">
+        <label>Pending Litigation / Disputes</label>
+        <select class="score-input" data-cat="legal" required>
+          <option value="20">None</option>
+          <option value="10">Minor / resolved recently</option>
+          <option value="0">Active significant litigation</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Licenses & Regulatory Compliance</label>
+        <select class="score-input" data-cat="legal" required>
+          <option value="20">Fully compliant, all licenses valid</option>
+          <option value="10">Minor gaps</option>
+          <option value="0">Major compliance issues</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Tax Compliance History (GST/IT)</label>
+        <select class="score-input" data-cat="legal" required>
+          <option value="20">Clean record, all filings on time</option>
+          <option value="10">Occasional delays</option>
+          <option value="0">Notices / disputes pending</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>IP / Asset Ownership Clarity</label>
+        <select class="score-input" data-cat="legal" required>
+          <option value="20">Clear, verifiable ownership</option>
+          <option value="10">Some ambiguity</option>
+          <option value="0">Disputed / unclear ownership</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <div class="section-title"><span class="num">6</span> Growth & Strategic Fit <span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:6px;">(3 factors)</span></div>
+    <div class="qgrid">
+      <div class="qfield">
+        <label>Growth / Expansion Potential</label>
+        <select class="score-input" data-cat="growth" required>
+          <option value="20">High untapped potential</option>
+          <option value="12">Moderate potential</option>
+          <option value="4">Limited / saturated</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Strategic Synergy With Your Existing Business</label>
+        <select class="score-input" data-cat="growth" required>
+          <option value="20">Strong synergy</option>
+          <option value="12">Some synergy</option>
+          <option value="4">No synergy / standalone bet</option>
+        </select>
+      </div>
+      <div class="qfield">
+        <label>Scalability / Exit Potential</label>
+        <select class="score-input" data-cat="growth" required>
+          <option value="20">Highly scalable, clear exit paths</option>
+          <option value="12">Moderately scalable</option>
+          <option value="4">Hard to scale / niche lifestyle business</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px;">
+    <div class="section-title"><span class="num">7</span> Valuation Inputs</div>
+    <div class="section-sub">Fair valuation range calculate karne ke liye numbers daalein (₹ mein)</div>
+    <div class="vgrid">
+      <div class="qfield">
+        <label>Annual Revenue (₹)</label>
+        <input type="number" id="valRevenue" min="0" placeholder="e.g. 5000000" required>
+      </div>
+      <div class="qfield">
+        <label>Annual Net Profit / EBITDA (₹)</label>
+        <input type="number" id="valEbitda" min="0" placeholder="e.g. 800000" required>
+      </div>
+      <div class="qfield">
+        <label>Total Assets (₹)</label>
+        <input type="number" id="valAssets" min="0" placeholder="e.g. 2000000" required>
+      </div>
+      <div class="qfield">
+        <label>Total Liabilities (₹)</label>
+        <input type="number" id="valLiabilities" min="0" placeholder="e.g. 500000" required>
+      </div>
+      <div class="qfield">
+        <label>Seller's Asking Price (₹) <span style="color:var(--text-faint);font-weight:400;">(optional)</span></label>
+        <input type="number" id="valAsking" min="0" placeholder="e.g. 3000000">
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <button type="submit" class="btn-primary">🔍 Analyze This Business</button>
+  </div>
+</form>
+
+<div class="ad-slot">AD SLOT — In-feed Native (AdSense)</div>
+
+<section class="section" id="resultsSection">
+  <div class="section-title"><span class="num">✓</span> Acquisition Analysis Report</div>
+  <div class="section-sub" id="resultBizLine">—</div>
+
+  <div class="results-top">
+    <div class="panel gauge-card">
+      <svg width="220" height="220" viewBox="0 0 220 220" style="margin:0 auto;display:block;">
+        <circle cx="110" cy="110" r="92" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="16"/>
+        <circle id="gaugeCircle" cx="110" cy="110" r="92" fill="none" stroke="url(#gaugeGrad)" stroke-width="16"
+          stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578" transform="rotate(-90 110 110)"/>
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d4af37"/>
+            <stop offset="100%" stop-color="#10b981"/>
+          </linearGradient>
+        </defs>
+        <text x="110" y="103" text-anchor="middle" font-family="DM Mono" font-size="42" fill="#f2f1ec" id="gaugeNum">0</text>
+        <text x="110" y="126" text-anchor="middle" font-family="DM Sans" font-size="12" fill="#6c6b78">out of 100</text>
+      </svg>
+      <div id="verdictTag" class="verdict-tag tag-negotiate">CALCULATING…</div>
+      <div class="gauge-verdict" id="verdictHeadline">—</div>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-family:var(--font-head);font-size:16px;margin-bottom:4px;">Category-wise Breakdown</h3>
+      <div class="breakdown-list" id="breakdownList"></div>
+
+      <h3 style="font-family:var(--font-head);font-size:16px;margin:22px 0 4px;">Estimated Valuation Range</h3>
+      <div class="val-grid" id="valGrid"></div>
+      <div class="val-note" id="valNote"></div>
+    </div>
+  </div>
+
+  <div class="panel locked-wrap" style="margin-top:24px;" id="unlockAnchor">
+    <h3 style="font-family:var(--font-head);font-size:16px;margin-bottom:10px;">📋 Detailed AI Due-Diligence Report (Hinglish)</h3>
+    <div id="lockedContent">
+      <div class="locked-blur report-text">
+        Strengths: Is business ki 3 sabse badi strengths yeh hain — stable revenue, low debt aur acha market position...
+        Red Flags: Customer concentration thoda high hai, aur ek key employee pe zyada dependency dikh rahi hai...
+        Negotiation Points: Asking price ko EBITDA multiple ke against justify karne ko kahen, aur owner transition ke liye 3 mahine ka handover clause maangein...
+        Final Recommendation: Overall yeh ek Negotiate category deal hai — thoda price adjust karke aage badh sakte hain...
+      </div>
+      <div class="lock-overlay">
+        <div class="lock-icon">🔒</div>
+        <h4>Full Report Unlock Karein</h4>
+        <p>Strengths, Red Flags, Negotiation Points aur Final Recommendation — sab kuch detail mein, aapke inputs ke hisaab se AI-generated.</p>
+        <div class="price-tag"><s>₹499</s>₹149 <span style="font-size:13px;color:var(--text-faint);">/ lifetime</span></div>
+        <button class="btn-secondary" onclick="startUnlock()">🔓 Unlock Full Report</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <button class="btn-ghost" onclick="resetForm()">↺ Analyze Another Business</button>
+  </div>
+</section>
+
+<div class="ad-slot">AD SLOT — 728x90 / Responsive (AdSense)</div>
+
+<footer>
+  <div class="fbrand">IncomeAIHub</div>
+  <div>AI-powered tools for Indian freelancers, CA firms & MSMEs · Raipur, Chhattisgarh</div>
+  <div style="margin-top:10px;">© 2026 IncomeAIHub. Yeh tool sirf guidance ke liye hai; final acquisition decision se pehle CA/lawyer se salah zaroor lein.</div>
+</footer>
+
+<div class="modal-bg" id="guideModal">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeGuide()">×</span>
+    <h3>🇮🇳 इस्तेमाल करने की गाइड</h3>
+    <p>Yeh tool aapko kisi bhi business ko khareedne (acquire karne) se pehle uska poora health-check karne mein madad karta hai.</p>
+    <h4>Step 1: Business Details Bharein</h4>
+    <p>Business ka naam, industry, employees aur operation ke saal select karein.</p>
+    <h4>Step 2: 20 Due-Diligence Sawaalon Ke Jawab Dein</h4>
+    <p>Financial Health, Market Position, Operational Risk, Legal Compliance aur Growth Potential — in 5 categories ke sawaal honestly answer karein. Jitna accurate jawab, utna sahi score.</p>
+    <h4>Step 3: Valuation Numbers Daalein</h4>
+    <p>Revenue, Profit/EBITDA, Assets, Liabilities aur (agar pata ho) seller ki asking price daalein.</p>
+    <h4>Step 4: Analyze Button Dabayein</h4>
+    <p>Aapko turant Acquisition Score (0-100), category breakdown, aur estimated valuation range mil jayega — bilkul FREE.</p>
+    <h4>Step 5: Full Report Unlock Karein (Optional)</h4>
+    <p>₹149 mein lifetime unlock karke AI se detailed Hinglish report paayein — Strengths, Red Flags, Negotiation Points aur Final Recommendation (Buy / Negotiate / Avoid).</p>
+    <h4>Note</h4>
+    <p>Yeh tool ek starting point hai. Bade acquisitions ke liye hamesha ek CA ya lawyer se legal & financial due diligence zaroor karayein.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= CONFIG — Fill these with your Supabase project details ================= */
+const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const RAZORPAY_KEY_ID = "YOUR_RAZORPAY_KEY_ID";
+const TOOL_ID = "ai-business-acquisition-analyzer";
+const UNLOCK_PRICE_PAISE = 14900; // ₹149
+
+const EDGE = {
+  createOrder: `${SUPABASE_URL}/functions/v1/create-order`,
+  verifyPayment: `${SUPABASE_URL}/functions/v1/verify-payment`,
+  checkUnlock: `${SUPABASE_URL}/functions/v1/check-unlock`,
+  aiProxy: `${SUPABASE_URL}/functions/v1/ai-proxy`
+};
+
+/* ================= DEVICE ID ================= */
+function getDeviceId(){
+  let id = localStorage.getItem('iah_device_id');
+  if(!id){
+    id = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem('iah_device_id', id);
+  }
+  return id;
+}
+function isUnlockedLocal(){
+  return localStorage.getItem(`iah_unlocked_${TOOL_ID}`) === 'true';
+}
+function setUnlockedLocal(){
+  localStorage.setItem(`iah_unlocked_${TOOL_ID}`, 'true');
+}
+
+/* ================= TOAST ================= */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(()=>{ t.style.display='none'; }, 3200);
+}
+
+/* ================= GUIDE MODAL ================= */
+function openGuide(){ document.getElementById('guideModal').classList.add('active'); }
+function closeGuide(){ document.getElementById('guideModal').classList.remove('active'); }
+
+/* ================= STATE ================= */
+let lastComputed = null;
+
+/* ================= INDUSTRY MULTIPLES (EBITDA multiple ranges) ================= */
+const INDUSTRY_MULTIPLES = {
+  service: [2, 4],
+  it: [4, 8],
+  retail: [1.5, 3],
+  manufacturing: [3, 5],
+  fnb: [1.5, 2.5],
+  ecommerce: [2.5, 5],
+  other: [2, 4]
+};
+
+/* ================= FORM SUBMIT ================= */
+document.getElementById('analyzerForm').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const bizName = document.getElementById('bizName').value.trim() || 'Yeh Business';
+  const industry = document.getElementById('industry').value;
+
+  // Score categories
+  const cats = { financial:0, market:0, operational:0, legal:0, growth:0 };
+  const catMax = { financial:100, market:80, operational:80, legal:80, growth:60 };
+  document.querySelectorAll('.score-input').forEach(sel=>{
+    const cat = sel.dataset.cat;
+    cats[cat] += Number(sel.value);
+  });
+
+  const totalScore = Object.values(cats).reduce((a,b)=>a+b,0);
+  const totalMax = Object.values(catMax).reduce((a,b)=>a+b,0);
+  const pct = Math.round((totalScore/totalMax)*100);
+
+  // Valuation
+  const revenue = Number(document.getElementById('valRevenue').value)||0;
+  const ebitda = Number(document.getElementById('valEbitda').value)||0;
+  const assets = Number(document.getElementById('valAssets').value)||0;
+  const liabilities = Number(document.getElementById('valLiabilities').value)||0;
+  const asking = Number(document.getElementById('valAsking').value)||0;
+
+  const mult = INDUSTRY_MULTIPLES[industry] || INDUSTRY_MULTIPLES.other;
+  const valLow = Math.round(ebitda * mult[0]);
+  const valHigh = Math.round(ebitda * mult[1]);
+  const bookValue = Math.max(0, assets - liabilities);
+
+  lastComputed = { bizName, industry, cats, catMax, totalScore, totalMax, pct, revenue, ebitda, assets, liabilities, asking, valLow, valHigh, bookValue };
+
+  renderResults(lastComputed);
+  document.getElementById('resultsSection').style.display = 'block';
+  setTimeout(()=>{ document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'}); }, 100);
+
+  checkUnlockStatus();
+});
+
+/* ================= RENDER RESULTS ================= */
+function renderResults(d){
+  document.getElementById('resultBizLine').textContent = `${d.bizName} · ${industryLabel(d.industry)} — analyzed just now`;
+
+  // Gauge
+  const circumference = 578;
+  const offset = circumference - (circumference * d.pct/100);
+  const circle = document.getElementById('gaugeCircle');
+  circle.style.transition = 'stroke-dashoffset 1.2s ease';
+  setTimeout(()=>{ circle.setAttribute('stroke-dashoffset', offset); }, 100);
+
+  animateNumber('gaugeNum', d.pct);
+
+  let verdict, tagClass, headline;
+  if(d.pct >= 72){ verdict='BUY'; tagClass='tag-buy'; headline='Strong Acquisition Candidate'; }
+  else if(d.pct >= 45){ verdict='NEGOTIATE'; tagClass='tag-negotiate'; headline='Proceed With Caution & Negotiation'; }
+  else { verdict='AVOID'; tagClass='tag-avoid'; headline='High Risk — Reconsider'; }
+
+  const tagEl = document.getElementById('verdictTag');
+  tagEl.textContent = verdict;
+  tagEl.className = 'verdict-tag ' + tagClass;
+  document.getElementById('verdictHeadline').textContent = headline;
+
+  // Breakdown
+  const catLabels = { financial:'Financial Health', market:'Market Position', operational:'Operational Risk', legal:'Legal & Compliance', growth:'Growth Potential' };
+  const list = document.getElementById('breakdownList');
+  list.innerHTML = '';
+  Object.keys(d.cats).forEach(k=>{
+    const p = Math.round((d.cats[k]/d.catMax[k])*100);
+    list.innerHTML += `
+      <div class="bd-row">
+        <div class="bd-label">${catLabels[k]}</div>
+        <div class="bd-bar"><div class="bd-fill" style="width:${p}%"></div></div>
+        <div class="bd-val">${p}%</div>
+      </div>`;
+  });
+
+  // Valuation
+  const valGrid = document.getElementById('valGrid');
+  valGrid.innerHTML = `
+    <div class="val-card"><div class="lbl">EBITDA Multiple Low</div><div class="amt">${formatINR(d.valLow)}</div></div>
+    <div class="val-card"><div class="lbl">EBITDA Multiple High</div><div class="amt">${formatINR(d.valHigh)}</div></div>
+    <div class="val-card"><div class="lbl">Asset-Based (Book Value)</div><div class="amt">${formatINR(d.bookValue)}</div></div>
+  `;
+
+  let note = `Fair valuation range: <b style="color:var(--gold-2)">${formatINR(d.valLow)} – ${formatINR(d.valHigh)}</b> (based on ${industryLabel(d.industry)} EBITDA multiples).`;
+  if(d.asking > 0){
+    if(d.asking > d.valHigh) note += ` ⚠️ Seller ki asking price (${formatINR(d.asking)}) is range se zyada hai — overpriced lag raha hai.`;
+    else if(d.asking < d.valLow) note += ` ✅ Asking price (${formatINR(d.asking)}) range se kam hai — potentially good deal.`;
+    else note += ` Asking price (${formatINR(d.asking)}) fair range ke andar hai.`;
+  }
+  document.getElementById('valNote').innerHTML = note;
+
+  // reset locked report to teaser state on new calc
+  resetLockedPanel();
+}
+
+function industryLabel(v){
+  const map = { service:'Service/Consulting', it:'IT/SaaS', retail:'Retail/Trading', manufacturing:'Manufacturing', fnb:'Food & Beverage', ecommerce:'E-commerce', other:'General Business' };
+  return map[v] || 'Business';
+}
+function formatINR(n){
+  return '₹' + Number(n).toLocaleString('en-IN');
+}
+function animateNumber(id, target){
+  const el = document.getElementById(id);
+  let cur = 0;
+  const step = Math.max(1, Math.round(target/40));
+  const iv = setInterval(()=>{
+    cur += step;
+    if(cur >= target){ cur = target; clearInterval(iv); }
+    el.textContent = cur;
+  }, 20);
+}
+
+function resetForm(){
+  document.getElementById('analyzerForm').reset();
+  document.getElementById('resultsSection').style.display = 'none';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function scrollToUnlock(){
+  const anchor = document.getElementById('unlockAnchor');
+  if(anchor && document.getElementById('resultsSection').style.display !== 'none'){
+    anchor.scrollIntoView({behavior:'smooth'});
+  } else {
+    toast('Pehle business analyze karein, phir unlock karein 🙂');
+  }
+}
+
+/* ================= UNLOCK STATUS ================= */
+async function checkUnlockStatus(){
+  if(isUnlockedLocal()){
+    await revealFullReport();
+    return;
+  }
+  try{
+    const res = await fetch(EDGE.checkUnlock, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` },
+      body: JSON.stringify({ device_id:getDeviceId(), tool_id:TOOL_ID })
+    });
+    const data = await res.json();
+    if(data && data.unlocked){
+      setUnlockedLocal();
+      await revealFullReport();
+    }
+  }catch(err){
+    console.warn('check-unlock not reachable yet:', err);
+  }
+}
+
+function resetLockedPanel(){
+  document.getElementById('lockedContent').innerHTML = `
+    <div class="locked-blur report-text">
+      Strengths: Is business ki 3 sabse badi strengths yeh hain — stable revenue, low debt aur acha market position...
+      Red Flags: Customer concentration thoda high hai, aur ek key employee pe zyada dependency dikh rahi hai...
+      Negotiation Points: Asking price ko EBITDA multiple ke against justify karne ko kahen, aur owner transition ke liye 3 mahine ka handover clause maangein...
+      Final Recommendation: Overall yeh ek Negotiate category deal hai — thoda price adjust karke aage badh sakte hain...
+    </div>
+    <div class="lock-overlay">
+      <div class="lock-icon">🔒</div>
+      <h4>Full Report Unlock Karein</h4>
+      <p>Strengths, Red Flags, Negotiation Points aur Final Recommendation — sab kuch detail mein, aapke inputs ke hisaab se AI-generated.</p>
+      <div class="price-tag"><s>₹499</s>₹149 <span style="font-size:13px;color:var(--text-faint);">/ lifetime</span></div>
+      <button class="btn-secondary" onclick="startUnlock()">🔓 Unlock Full Report</button>
+    </div>`;
+}
+
+/* ================= RAZORPAY UNLOCK FLOW ================= */
+async function startUnlock(){
+  if(!lastComputed){ toast('Pehle business analyze karein.'); return; }
+  try{
+    const orderRes = await fetch(EDGE.createOrder, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` },
+      body: JSON.stringify({ amount:UNLOCK_PRICE_PAISE, tool_id:TOOL_ID, device_id:getDeviceId() })
+    });
+    const order = await orderRes.json();
+
+    const rzp = new Razorpay({
+      key: RAZORPAY_KEY_ID,
+      amount: UNLOCK_PRICE_PAISE,
+      currency: 'INR',
+      name: 'IncomeAIHub',
+      description: 'AI Business Acquisition Analyzer — Lifetime Unlock',
+      order_id: order.id,
+      handler: async function(response){
+        try{
+          const verifyRes = await fetch(EDGE.verifyPayment, {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              tool_id: TOOL_ID,
+              device_id: getDeviceId()
+            })
+          });
+          const verifyData = await verifyRes.json();
+          if(verifyData && verifyData.success){
+            setUnlockedLocal();
+            toast('Payment successful! Report unlock ho gaya 🎉');
+            await revealFullReport();
+          } else {
+            toast('Payment verify nahi ho paya. Support se contact karein.');
+          }
+        }catch(err){
+          console.error(err);
+          toast('Verification error. Please try again.');
+        }
+      },
+      theme:{ color:'#d4af37' }
+    });
+    rzp.open();
+  }catch(err){
+    console.error(err);
+    toast('Order create nahi ho paya. Thodi der baad try karein.');
+  }
+}
+
+/* ================= AI PROXY — FULL REPORT ================= */
+async function revealFullReport(){
+  const el = document.getElementById('lockedContent');
+  el.innerHTML = `<div class="loader"><div class="spinner"></div> AI aapki detailed report generate kar raha hai…</div>`;
+
+  try{
+    const payload = buildAIPrompt(lastComputed);
+    const res = await fetch(EDGE.aiProxy, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` },
+      body: JSON.stringify({ tool_id:TOOL_ID, prompt: payload })
+    });
+    const data = await res.json();
+    const reportText = (data && data.text) ? data.text : fallbackReport(lastComputed);
+    el.innerHTML = `<div class="report-text">${escapeHtml(reportText)}</div>`;
+  }catch(err){
+    console.warn('ai-proxy not reachable, using fallback report:', err);
+    el.innerHTML = `<div class="report-text">${escapeHtml(fallbackReport(lastComputed))}</div>`;
+  }
+}
+
+function buildAIPrompt(d){
+  return `Tum ek experienced Indian business acquisition consultant ho. Neeche diye gaye data ke basis par Hinglish mein ek professional due-diligence report likho.
+
+Business: ${d.bizName}
+Industry: ${industryLabel(d.industry)}
+Overall Acquisition Score: ${d.pct}/100
+Financial Health: ${Math.round((d.cats.financial/d.catMax.financial)*100)}%
+Market Position: ${Math.round((d.cats.market/d.catMax.market)*100)}%
+Operational Risk Score: ${Math.round((d.cats.operational/d.catMax.operational)*100)}%
+Legal & Compliance: ${Math.round((d.cats.legal/d.catMax.legal)*100)}%
+Growth Potential: ${Math.round((d.cats.growth/d.catMax.growth)*100)}%
+Annual Revenue: ₹${d.revenue}
+Annual EBITDA: ₹${d.ebitda}
+Estimated Valuation Range: ₹${d.valLow} - ₹${d.valHigh}
+Asking Price: ₹${d.asking || 'Not provided'}
+
+Report mein yeh sections hone chahiye: "Strengths" (3 points), "Red Flags" (3 points), "Negotiation Points" (3 points), aur "Final Recommendation" (Buy/Negotiate/Avoid ke saath reasoning). Simple Hinglish mein, practical aur actionable tone mein likho.`;
+}
+
+function fallbackReport(d){
+  const verdict = d.pct>=72 ? 'BUY' : d.pct>=45 ? 'NEGOTIATE' : 'AVOID';
+  return `STRENGTHS
+1. Overall score ${d.pct}/100 hai jo ${industryLabel(d.industry)} sector ke liye ${d.pct>=60?'accha':'average'} maana ja sakta hai.
+2. Financial health category mein ${Math.round((d.cats.financial/d.catMax.financial)*100)}% score mila hai.
+3. Growth potential ${Math.round((d.cats.growth/d.catMax.growth)*100)}% assess hua hai.
+
+RED FLAGS
+1. Jo bhi category sabse kam score kar rahi hai, usko lekar extra due diligence karein.
+2. Owner dependency aur key-person risk ko carefully verify karein.
+3. Legal & compliance records ko CA/lawyer se cross-check zaroor karayein.
+
+NEGOTIATION POINTS
+1. Estimated valuation range ₹${d.valLow.toLocaleString('en-IN')} – ₹${d.valHigh.toLocaleString('en-IN')} ko reference banakar price negotiate karein.
+2. Owner transition/handover period aur non-compete clause maangein.
+3. Pending liabilities ya disputes ko purchase agreement mein clearly document karayein.
+
+FINAL RECOMMENDATION: ${verdict}
+Is business ka overall acquisition score ${d.pct}/100 hai. ${verdict==='BUY' ? 'Yeh ek strong candidate hai, lekin final legal due diligence zaroor karayein.' : verdict==='NEGOTIATE' ? 'Kuch risk factors hain — price aur terms negotiate karke aage badhna sahi rahega.' : 'Risk factors kaafi high hain — is deal ko avoid karna ya bahut carefully re-evaluate karna behtar hoga.'}`;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.innerText = str;
+  return div.innerHTML;
+}
+
+/* Init */
+getDeviceId();
+</script>
+</body>
+</html>
